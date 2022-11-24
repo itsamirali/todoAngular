@@ -8,14 +8,7 @@ import { todoModel } from '../model/todo.interface';
 export class TodoService {
   constructor(private http: HttpClient) {}
   getListOfTodos() {
-    let listOfProduct: todoModel[] = [];
-    this.http
-      .get<todoModel[]>('http://127.0.0.1:8000/api/')
-      .pipe()
-      .subscribe((res) => {
-        listOfProduct = res;
-      });
-    return listOfProduct;
+    return this.http.get('http://127.0.0.1:8000/api/');
   }
 
   createNewTodo(todo: todoModel) {
@@ -24,18 +17,10 @@ export class TodoService {
       is_completed: todo.isCompleted,
       is_open: todo.isOpen,
     };
-    this.http
-      .post('http://127.0.0.1:8000/api/create', todoForApi)
-      .subscribe((res) => {
-        console.log(res);
-      });
+    return this.http.post('http://127.0.0.1:8000/api/create', todoForApi);
   }
 
   removeATodo(id: number) {
-    this.http
-      .delete(`http://127.0.0.1:8000/api/delete/${id}`)
-      .subscribe((res) => {
-        console.log(res);
-      });
+    return this.http.delete(`http://127.0.0.1:8000/api/delete/${id}`);
   }
 }

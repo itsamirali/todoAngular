@@ -8,7 +8,7 @@ import { TodoService } from '../shared/todo.service';
   styles: [],
 })
 export class TodoComponent {
-  listOfTodos: todoModel[] = []
+  listOfTodos: any = []
   constructor(private todoService: TodoService) {}
 
   ngOnInit() {
@@ -16,7 +16,10 @@ export class TodoComponent {
   }
 
   getListOfTodosService() {
-    this.listOfTodos = this.todoService.getListOfTodos()
+    this.todoService.getListOfTodos().subscribe(res => {
+      console.log(res)
+      this.listOfTodos = res
+    })
   }
 
   onAddTodo(element: HTMLInputElement) {
@@ -26,6 +29,15 @@ export class TodoComponent {
       isCompleted: false,
       isOpen: true,
     };
-    this.todoService.createNewTodo(todo);
+    this.todoService.createNewTodo(todo).subscribe(res => {
+      this.getListOfTodosService()
+      element.value = ''
+    });
+  }
+
+  onRemoveTodo(id: number) {
+    this.todoService.removeATodo(id).subscribe(res => {
+      this.getListOfTodosService()
+    })
   }
 }
