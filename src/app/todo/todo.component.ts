@@ -17,7 +17,6 @@ export class TodoComponent {
 
   getListOfTodosService() {
     this.todoService.getListOfTodos().subscribe(res => {
-      console.log(res)
       this.listOfTodos = res
     })
   }
